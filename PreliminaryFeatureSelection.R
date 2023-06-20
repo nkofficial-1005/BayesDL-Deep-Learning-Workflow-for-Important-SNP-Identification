@@ -108,7 +108,7 @@ trainData <- df_new[training.id, ]
 data.train <- as.data.frame(trainData)
 data.test <- as.data.frame(testData)
 
-#Save the train and test sets for further analysis
+#Save the train and test sets for further analysis of Neural Networks
 x_test <- as.matrix(data.test[,1:(d1-1)])
 write.csv(x_test, "XTest_Antho.csv")
 y_test <- as.matrix(data.test[, d1])
