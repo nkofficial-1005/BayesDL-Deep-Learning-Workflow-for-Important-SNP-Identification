@@ -126,7 +126,7 @@ N = nrow(xTrain)
 n_H = 50 #Number of nodes in each hidden layer
 wt_samples <- matrix(NA, nrow = P, ncol = n_H)
 
-# Define the names of the parameters you want to extract
+# Define the names of the parameters which are to be extracted
 param_names <- c()
 for (i in 1:P){
   for(j in 1:n_H){
