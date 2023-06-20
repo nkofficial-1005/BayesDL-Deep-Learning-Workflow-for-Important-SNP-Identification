@@ -136,7 +136,7 @@ for (i in 1:P){
 }
 
 # Extract the parameter samples and store them in a matrix
-wt_samples <- matrix(NA, nrow = 8000, ncol = length(param_names))
+wt_samples <- matrix(NA, nrow = 4000, ncol = length(param_names))
 col_name <- list()
 for (i in 1:length(param_names)) {
   wt_name <- param_names[i]
