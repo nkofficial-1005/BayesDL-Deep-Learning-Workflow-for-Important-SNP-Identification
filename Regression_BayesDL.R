@@ -136,7 +136,7 @@ for (i in 1:length(param_names)) {
 }
 colnames(wt_samples) <- col_name
 
-# Compute the posterior means and standard deviations for each predictor
+# Compute the posterior means and standard deviations for each predictor (or SNP)
 wt_means <- colMeans(wt_samples)
 wt_sds <- apply(wt_samples, 2, sd)
 
