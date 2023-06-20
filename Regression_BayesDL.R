@@ -140,6 +140,9 @@ colnames(wt_samples) <- col_name
 wt_means <- colMeans(wt_samples)
 wt_sds <- apply(wt_samples, 2, sd)
 
+#Remove weight means that are equal to zero
+lapply(wt_means, function(x) {x[x!=0]})
+
 # Compute the variable importance measures
 var_imp <- wt_sds/ abs(wt_means)
 
