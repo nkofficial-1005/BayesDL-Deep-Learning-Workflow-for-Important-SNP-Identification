@@ -37,6 +37,12 @@ yTrain <- as.vector(yTrain)
 yTest <- read.csv("ytest_Width.csv")
 yTest <- yTest[,-1]
 yTest <- as.vector(yTest)
+######
+x <- bind_rows(xTrain, xTest)
+y <- as.data.frame(c(yTrain, yTest))
+colnames(y) <- "y"
+data <- bind_cols(x,y)
+######
 
 #Bayesian Neural Network (BNN)
 
