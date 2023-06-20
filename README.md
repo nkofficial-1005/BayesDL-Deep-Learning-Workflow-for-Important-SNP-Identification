@@ -35,21 +35,16 @@ Two  Arabidopsis thaliana  data, AtPolyDB and F1, are used for this study. They 
 The new pipeline includes below steps,
 
 <b>Input:</b>  Genotype .ped file and Phenotype .pheno file  
-1. Re-code the chromosomal nucleotide to numeric values to form a binary marker data followed by creating a design matrix of dimensions n  ×  p.
-2. Remove null values from the phenotype data and match them with marker data.  
-3. Impute SNPs with null values with the mean across all samples in the marker data set.  
-4. For a 5-fold CV, repeat the steps  
-a. Split the data into training (80%) and testing (20%) folds.  
-b. Use glmnet to train and validate ridge, lasso, and elastic net.
-	1. Predict the phenotype value for both training and testing  folds using  λ  within 1 standard error of the minimum obtained by an inner 5-fold CV.  
-	2. Record the appropriate performance metric using the optimal cutoff to optimize the metric.  
-	3. Record the potentially significant SNPs from each method. The significant SNPs are those with coefficients higher than the mean of the absolute value of the coefficients.
+1. Pre-process the data and perform feature selection using chi-square and ANOVA tests for categorical and continuous phenotypes respectively.
+2. Split the data into training (50\%) and testing (50\%) folds.
+3. Develop and specify the Stan model as follows: 
+a. The RStan model is developed to form data, transformed data, parameters, function, transformed parameters, model, and generated quantities block. Save the files as nn_reg.stan and nn_class.stan for further analysis.  
+b. Specify the stan models in R using nn_reg.stan and nn_class.stan files. Define a function to compile the stan model and get the desired output as follows:
+	1. Define stan data in the function.  
+	2. Call Stan's optimizing methods to obtain point estimates by optimizing the posterior for the model. 
+	3. Call a Stan's NUTS sampler to draw posterior samples from the model.
+4. Fit train and test sets (and vice-versa) in the function for training the model and making predictions using $2$ hidden layers with $50$ neurons in each layer respectively. 
+5. Record the two test performance metrics for each phenotype from the optimization method.
+6. Rank the input SNPs by generating the samples of weights (weights ranked in increasing value of CoV) corresponding to predictors using the sampling function.
 
-	c. Filter SNPs by taking the union of SNPs from the ridge, LASSO, and elastic net.  
-d. Create groups of SNPs using Hierarchical Clustering.  
-e. Utilize filtered SNPs to train and validate Group Lasso and SGL using R functions grplasso and SGL.
-	1. Predict the phenotype value for both training and testing folds using  λ  within 1 standard error of the minimum obtained by an inner 5-fold CV.  
-	2. Record the appropriate performance metric using the optimal cutoff to optimize the metric.  
-	3. Take the union of the potentially significant SNPs from both Group Lasso and SGL. The significant SNPs are those with coefficients higher than a cutoff (mean of the absolute value of the coefficients).
-
-<b>Output:</b>  The significant SNPs (union of selected SNPs from Group LASSO and SGL) for each phenotype
+<b>Output:</b>  The top $10$ significant SNPs for each phenotype.
