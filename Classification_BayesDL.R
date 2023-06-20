@@ -142,13 +142,13 @@ print(fit_nuts$fit)
 
 #Feature selection using BNN
 ######
-#Extract weights associated with each predictor
+#Extract weights associated with each predictor (or SNP)
 P = ncol(xTrain)
 N = nrow(xTrain)
 n_H = 50
 wt_samples <- matrix(NA, nrow = P, ncol = n_H)
 
-# Define the names of the parameters you want to extract
+# Define the names of the parameters which are to be extracted
 param_names <- c()
 for (i in 1:P){
   for(j in 1:n_H){
