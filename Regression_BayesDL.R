@@ -94,6 +94,10 @@ fit_nn_reg <- function(x_train, y_train, x_test, y_test, H, n_H, data, method = 
 #Optimizing the model
 fit_opt <- fit_nn_reg(xTest, yTest, xTrain, yTrain, 2, 50, data, method = "optimize")
 
+#Calculate Performance Metrics
+RMSE <- sqrt(fit_opt$mse)
+R2 <- fit_opt$rsq
+
 #Sampling from the fitted model
 fit_nuts <- fit_nn_reg(xTrain, yTrain, xTest, yTest, 2, 50, method = "sampling",
                        chains = 4, cores = 4, iter = 2000, warmup=1000)
