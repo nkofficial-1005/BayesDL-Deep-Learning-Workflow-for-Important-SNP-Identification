@@ -44,8 +44,7 @@ y <- y[index, 1, drop = FALSE]
 
 #Imputing SNP null values
 for (j in 1:ncol(Geno)) {
-  Geno[, j] <- ifelse(is.na(Geno[, j]), mean(Geno[, j], na.rm = TRUE), Geno[, 
-                                                                            j])
+  Geno[, j] <- ifelse(is.na(Geno[, j]), mean(Geno[, j], na.rm = TRUE), Geno[, j])
 }
 Geno_y <- Geno[index, ] 
 pheno_final <- data.frame(famid = rownames(y), y = y)
