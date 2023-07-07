@@ -113,12 +113,12 @@ fit_opt <- fit_nn_cat(xTest, yTest,xTrain, yTrain, 2, 50, data, method = "optimi
 
 #Calculate Performance Metrics
 cm <- fit_opt$conf
-cm
+#cm
 #accuracy <- sum(cm[1], cm[4]) / sum(cm[1:4])
-precision <- cm[4] / sum(cm[4], cm[2])
-sensitivity <- cm[4] / sum(cm[4], cm[3])
-fscore <- (2 * (sensitivity * precision))/(sensitivity + precision)
-auc <- auc(as.matrix(yTest),fit_opt$y_test_cat)
+#precision <- cm[4] / sum(cm[4], cm[2])
+#sensitivity <- cm[4] / sum(cm[4], cm[3])
+#fscore <- (2 * (sensitivity * precision))/(sensitivity + precision)
+#auc <- auc(as.matrix(yTest),fit_opt$y_test_cat)
 
 #Sampling from the fitted model
 fit_nuts <- fit_nn_cat(xTrain, yTrain, xTest, yTest, 2, 50, method = "sampling", 
