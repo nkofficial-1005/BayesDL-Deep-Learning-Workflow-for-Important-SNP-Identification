@@ -1,16 +1,20 @@
 # BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification
 
-#  Table of content
+##  Table of content
 
-* [Abstract](#abstract)
+- [Abstract](#abstract)
+  * [Glossary](#glossary)
 
-* [Technologies](#technologies)
+- [Prerequisites](#prerequisites)
+  * [Data](#data)
+  
+- [Methodology](#methodology)
+  
+- [License](#license)
+  
+- [Contact](#contact)
 
-* [Data](#data)
-
-* [Step by step implementation](#step-by-step-implementation)
-
-#  Abstract
+##  Abstract
 
 Genome-Wide Association Study (GWAS) is the discovery of  an association between certain variations in the genetic code (genome) and a certain physical trait (phenotype). Single Nucleotide Polymorphisms (SNPs) are the most abundant form of common simple DNA variants. In bioinformatics studies, one of the most challenging processes to carry out association tests is finding significant SNPs in high-dimensional data. This problem can be potentially solved by feature selection using statistical and machine learning algorithms. A Bayesian Neural Network (BNN) based workflow, BayesDL, is proposed to identify important SNPs. BayesDL is a cascaded classifier and regressor of an Artificial neural network using Bayesian inference. The model is fitted using R and Stan. Firstly, the whole-genome SNP data undergoes preliminary feature (SNP) selection using hypothesis testing procedures to reduce the size of the data. It is needed to make the data compatible with neural network (NN) architectures (especially BNN which also includes probabilistic distributions) as they require extensive computational resources (more than 32GB RAM when using all SNPs as input layer). Secondly, the BNN model is defined using Stan; the defined model is further used for SNP identification and test performance evaluation. Finally, the existing CNN model is utilized for comparison based on test performance metrics which aids in determining the superiority of BayesDL. The final output (important SNPs) from BayesDL is used for further biological analysis. The following paragraphs provide steps followed to perform preliminary feature selection and define the research work required to train and validate the NN-based models.
 
@@ -18,21 +22,33 @@ BayesDL, used for SNP identification, increases confidence in the selected SNPs 
 
 Key Words: Genomic Wide Association Study  ·  Single Nucleotide Polymorphism  ·  Feature Selection  ·  Deep Learning  ·  High Dimensional Data.
 
-#  Technologies
+### Glossary
+
+* SNP - Single Nucleotide Polymorphisms
+* GWAS - Genome-Wide Association Studies
+* TASSEL - Trait Analysis by aSSociation, Evolution and Linkage
+* GAPIT -  Genome Association and Prediction Integrated Tool
+* DL - Deep Learning
+* NN - Neural Network
+* CNN - Convolutional Neural Network
+* ANN - Artificial Neural Network
+* CoV - Coefficient of Variation
+* MCMC - Markov Chain Monte Carlo
+* GLM - Generalized Linear Model
+  
+## Prerequisites
 
 Software: R Version 4.2.2 and R Version 3.6.3
 
 Operating Systems: Linux 5.4.0-135-generic x86_64 and Linux 5.4.0-150-generic x86_64
 
-Cloud Servers: TRU Data Science and Compute Canada
+###  Data
 
-#  Data
+Arabidopsis thaliana  data, AtPolyDB, is used for this study. It is obtained from the easygwas website: https://easygwas.ethz.ch/data/public/dataset/view/1/. The AtPolyDB dataset has 1307 samples with 214051 SNPs (or features) and the F1 data set has 372 samples with 204753 SNPs. The data set contains three files: (a) PED file, (b) PHENO file, and (c) MAP file. The chosen phenotypes had three different data types: (a) Binary (Anthocyanin), (b) Continuous (Width), and (c) Categorical (Germination Days).
 
-Two  Arabidopsis thaliana  data, AtPolyDB and F1, are used for this study. They are obtained from easygwas websites: https://easygwas.ethz.ch/data/public/dataset/view/1/ and https://easygwas.ethz.ch/data/public/dataset/view/42/. The AtPolyDB dataset has 1307 samples with 214051 SNPs (or features) and the F1 data set has 372 samples with 204753 SNPs. Both data sets contain three files: (a) PED file, (b) PHENO file, and (c) MAP file. The chosen phenotypes had three different data types: (a) Binary (Anthocyanin), (b) Continuous (Width and DTF), and (c) Categorical (Germination Days).
+##  Methodology
 
-#  Step-by-step implementation
-
-The new pipeline includes below steps,
+The new workflow includes below steps,
 
 <b>Input:</b>  Genotype .ped file and Phenotype .pheno file  
 1. Pre-process the data and perform feature selection using chi-square and ANOVA tests for categorical and continuous phenotypes respectively.
@@ -48,3 +64,10 @@ b. Specify the stan models in R using nn_reg.stan and nn_class.stan files. Defin
 6. Rank the input SNPs by generating the samples of weights (weights ranked in increasing value of CoV) corresponding to predictors using the sampling function.
 
 <b>Output:</b>  The top $10$ significant SNPs for each phenotype.
+
+## License
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+## Contact
+You can ask questions to [Nikita Kohli](mailto:nikita.datascience@gmail.com).
