@@ -9,6 +9,8 @@
   * [Data](#data)
   
 - [Methodology](#methodology)
+
+- [Instructions to Run Code](#instructions-to-run-code)
   
 - [License](#license)
   
