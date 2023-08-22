@@ -67,6 +67,45 @@ b. Specify the stan models in R using nn_reg.stan and nn_class.stan files. Defin
 
 <b>Output:</b>  The top $10$ significant SNPs for each phenotype.
 
+## Instructions to Run Code
+1. Download all R files ([PreliminaryFeatureSelection.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/PreliminaryFeatureSelection.R), [Regression_BayesDL.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/Regression_BayesDL.R), and [Classification_BayesDL.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/Classification_BayesDL.R)).
+2. Additionally, download both Stan files ([nn_reg.stan](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/nn_reg.stan) and [nn_class.stan](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/nn_class.stan)).
+3. Download F1 hybrids and AtPolyDB from the [easyGWAS](https://easygwas.biochem.mpg.de/down/1/) website.
+4. Keep all the downloaded files (1 to 3) in the same directory.
+5. For both Arabidopsis thaliana data, follow the following instructions for identifying important SNPs.
+   - In [PreliminaryFeatureSelection.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/PreliminaryFeatureSelection.R) file
+     - Input the Genotype .ped file and Phenotype .pheno file using the following syntax.
+      ```r
+      Geno <- read.pedfile("genotype.ped")
+      char.pheno <- read.table("phenotypes.pheno", header = TRUE, stringsAsFactors = FALSE, sep = " ")
+      ```
+      - Now, select the appropriate phenotype data type using the following syntax.
+      ```r
+      y <- matrix(char.pheno$Anthocyanin_22) #Change the phenotype accordingly
+      ```
+      - According to the data type of the phenotype, either run the Chi-square test or ANOVA using the following syntax.
+     ```r
+      # Get the chi-squared test for categorical/binary
+     for(k in 1:d){
+     	 tab = table(df_final[,k], df_final[,d])
+         pvals[k] = chisq.test(tab)$p.value
+     }
+     #Anova test for continuous
+     for(k in 1:d){
+      pvals[k] = summary(aov(df_final[,d]~df_final[,k]))[[1]][["Pr(>F)"]][1]} 
+     ```
+      - Save the filtered data of phenotypes as per the following code.
+      ```r
+      write.csv(df_new, "Antho.csv")
+      ```
+      - Split data in 50% training and 50% testing sets and save them for further analysis of Neural Networks.
+     ```r
+     write.csv(x_test, "XTest_Antho.csv")
+     write.csv(y_test, "ytest_Antho.csv")
+     write.csv(x_train, "XTrain_Antho.csv")
+     write.csv(y_train, "ytrain_Antho.csv")
+     ```
+   
 ## License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
