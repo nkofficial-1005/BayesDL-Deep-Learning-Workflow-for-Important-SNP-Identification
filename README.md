@@ -105,7 +105,40 @@ b. Specify the stan models in R using nn_reg.stan and nn_class.stan files. Defin
      write.csv(x_train, "XTrain_Antho.csv")
      write.csv(y_train, "ytrain_Antho.csv")
      ```
-   
+   - In [Regression_BayesDL.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/Regression_BayesDL.R) file
+     - Import the saved data (both feature and response) using the ```r read.csv () ``` command.
+     - Read the saved [nn_reg.stan](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/nn_reg.stan) file using the following command.
+       ```r
+       sm_reg <- stan_model("nn_reg.stan")
+       ```
+     - Run the code for the developed function, "fit_nn_reg".
+     - Use the saved function to fit regression NN.
+       ```r
+       #Optimizing the model
+       fit_opt <- fit_nn_reg(xTest, yTest, xTrain, yTrain, 2, 50, data, method = "optimize")
+
+       #Sampling from the fitted model
+       fit_nuts <- fit_nn_reg(xTrain, yTrain, xTest, yTest, 2, 50, method = "sampling",
+                       chains = 4, cores = 4, iter = 2000, warmup=1000)
+       ```
+     - Save the fitted model for future use because running takes a while.
+       ```r
+       saveRDS(fit_nuts, 'stan_fit_width.rds')
+       fit <-readRDS('stan_fit_width.rds')   
+       ```
+     - Follow the next few command lines to sample the weights and compute their Mean & Standard Deviation.
+     - Compute the Coefficient of Variation (CoV) using the following syntax.
+       ```r
+       # Compute the variable importance measures
+         var_imp <- wt_sds/ abs(wt_means)
+       ```
+     - Finally, select the top 10 SNPs or adjust the parameter to any chosen number of SNPs.
+       ```r
+       top_vars <- names(var_imp)[1:10]
+       ```
+     - Save the selected SNPs and use the selected SNPs for MCMC Diagnosis as per the study requirements.
+   - Follow the similar steps for classification using [Classification_BayesDL.R](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/Classification_BayesDL.R) and [nn_class.stan](https://github.com/nkofficial-1005/BayesDL-Deep-Learning-Workflow-for-Important-SNP-Identification/blob/main/nn_class.stan) files.
+     
 ## License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
